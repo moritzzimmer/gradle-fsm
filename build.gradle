@@ -1,0 +1,117 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+description = 'add your description here'
+version = '0.1.0'
+ext.vendor = 'example'
+
+repositories {
+  mavenCentral()
+}
+
+configurations {
+  /*
+   * Custom configuration listing dependencies required to
+   * compile the production source code of this FSM but are
+   * provided by FirstSpirit.
+   * 
+   * Libraries added to this configuration won't be added
+   * to the FSM.
+   */
+  fsprovidedCompile
+  compile.extendsFrom(fsprovidedCompile)
+  
+  /*
+   * Custom configuration listing dependencies required by
+   * the production classes at runtime but are
+   * provided by FirstSpirit.
+   * 
+   * Libraries added to this configuration won't be added
+   * to the FSM.
+   */
+  fsprovidedRuntime
+  runtime.extendsFrom(fsprovidedRuntime)
+}
+
+dependencies {
+  compile (
+    // example
+    'joda-time:joda-time:2.3'
+  )
+  
+  // add compile time dependencies provided by FirstSpirit here
+  fsprovidedCompile (
+    // example
+    //'de.espirit:fs-webrt:5.0.319'
+    'commons-logging:commons-logging:1.1.3'
+  )
+  
+  // add runtime dependencies provided by FirstSpirit here
+  fsprovidedRuntime (
+  )
+  
+  testCompile (
+    // example
+    'junit:junit:4.11'
+  )  
+}
+
+task assembleFSM(type: Jar, dependsOn: jar, group: 'build', description: 'Assembles the FirstSpirit module') {
+  extension = 'fsm'
+  destinationDir = file('build/fsm')
+  
+  // include production code
+  into ('lib') {
+      from "${buildDir}/libs"
+      include project.jar.archiveName
+  }
+  
+  // include compile and runtime dependencies
+  into ('lib') {
+    from configurations.compile
+    from configurations.runtime
+    
+    exclude { it.file in configurations.fsprovidedCompile.files }
+    exclude { it.file in configurations.fsprovidedRuntime.files }
+  }
+
+  // configure META-INF directory
+  metaInf {
+    from 'src/main/resources/'
+    include 'module.xml'
+      
+    // expand placeholders in module.xml
+    expand(name: project.name,
+      version: project.version,
+      description: project.description,
+      vendor: vendor,
+      artifact: project.jar.archiveName)
+  }
+  
+  // customize MANIFEST.MF as needed here
+  manifest {
+    attributes "Implementation-Version": version
+  }
+}
+
+artifacts {
+  // add FSM to the outputs of this build
+  archives assembleFSM
+}
+
+jar {
+  exclude 'module.xml' // module.xml will be placed in META-INF directory
+  
+  // customize MANIFEST.MF as needed here
+  manifest {
+    attributes "Implementation-Version": version
+  }
+}
+
+eclipse {
+  classpath {
+    // add libraries from custom FirstSpirit configurations to the eclipse classpath
+    plusConfigurations += configurations.fsprovidedCompile
+    plusConfigurations += configurations.fsprovidedRuntime
+  }
+}
