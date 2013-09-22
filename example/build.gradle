@@ -31,6 +31,10 @@ dependencies {
   )  
 }
 
+fsm {
+	// configure FSM here
+}
+
 /*
 task assembleFSM(type: Jar, dependsOn: jar, group: 'build', description: 'Assembles the FirstSpirit module') {
   extension = 'fsm'

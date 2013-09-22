@@ -16,19 +16,28 @@
 package org.gradle.plugins.fsm.tasks.bundling
 
 import org.gradle.api.file.FileCollection
+import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.bundling.Jar
 
 
 class FSM extends Jar {
 	static final String FSM_EXTENSION = 'fsm'
 
+	/**
+	 * Directory containing the module.xml, mapped from plugin convention
+	 */
+	String moduleDirName
+	
 	FSM() {
 		extension = FSM_EXTENSION
 		destinationDir = project.file('build/fsm')
-
+	}
+	
+	@Override
+	@TaskAction
+	protected void copy() {
 		metaInf {
-			// TODO: use convention here
-			from project.file('src/main/resources/')
+			from project.file(moduleDirName)
 			include 'module.xml'
 
 			// TODO: add vendor here
@@ -37,5 +46,6 @@ class FSM extends Jar {
 				description: project.description,
 				artifact: project.jar.archiveName)
 		}
+		super.copy();
 	}
 }

@@ -23,7 +23,7 @@ import org.gradle.api.Task
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.plugins.JavaPlugin
-import org.gradle.plugins.fsm.tasks.bundling.FSM;
+import org.gradle.plugins.fsm.tasks.bundling.FSM
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Before
 import org.junit.Test
@@ -78,7 +78,14 @@ class FSMPluginTest {
 		project.apply plugin: FSMPlugin.NAME
 
 		Configuration archiveConfiguration = project.getConfigurations().getByName(Dependency.ARCHIVES_CONFIGURATION)
-		assertThat(archiveConfiguration.getAllArtifacts().size(), equalTo(2)) // jar and fsm
+		assertThat(archiveConfiguration.getAllArtifacts().size(), equalTo(2)) // TODO: at the moment this is jar, fsm - shall we remove jar (see ear plugin)?
 		assertThat(archiveConfiguration.getAllArtifacts().toArray()[1].getType(), equalTo("fsm"))
+	}
+	
+	@Test
+	void pluginConventionAdded() {
+		project.apply plugin: FSMPlugin.NAME
+
+		assertThat(project.convention.plugins.fsm, instanceOf(FSMPluginConvention))		
 	}
 }

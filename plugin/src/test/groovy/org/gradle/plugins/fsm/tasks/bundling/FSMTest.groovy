@@ -19,8 +19,7 @@ import static org.hamcrest.Matchers.*
 import static org.junit.Assert.*
 
 import org.gradle.api.Project
-import org.gradle.plugins.fsm.FSMPlugin;
-import org.gradle.plugins.fsm.tasks.bundling.FSM;
+import org.gradle.plugins.fsm.FSMPlugin
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.After
 import org.junit.Before
@@ -36,6 +35,7 @@ class FSMTest {
 	@Before public void setUp() {
 		project = ProjectBuilder.builder().withProjectDir(testDir).build()
 		project.apply plugin: FSMPlugin.NAME
+		project.convention.plugins.fsm.moduleDirName = "src/test/resources"
 
 		fsm = project.tasks[FSMPlugin.FSM_TASK_NAME]
 		

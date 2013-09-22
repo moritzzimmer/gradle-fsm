@@ -21,7 +21,7 @@ import org.gradle.api.internal.artifacts.publish.ArchivePublishArtifact
 import org.gradle.api.internal.plugins.DefaultArtifactPublicationSet
 import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.plugins.JavaPlugin
-import org.gradle.plugins.fsm.tasks.bundling.FSM;
+import org.gradle.plugins.fsm.tasks.bundling.FSM
 
 /**
  * <p>
@@ -31,22 +31,37 @@ import org.gradle.plugins.fsm.tasks.bundling.FSM;
 class FSMPlugin implements Plugin<Project> {
 
 	static final String NAME = "fsm"
-	static final String FSM_TASK_NAME = "fsm"
+	static final String FSM_TASK_NAME = NAME
+	static final String PLUGIN_CONVENTION_NAME = NAME
 
 	@Override
 	public void apply(Project project) {
 		project.plugins.apply(JavaPlugin.class)
 
-		setupTask(project)
+		FSMPluginConvention pluginConvention = new FSMPluginConvention()
+		project.getConvention().getPlugins().put(PLUGIN_CONVENTION_NAME, pluginConvention)
+		
+		setupTask(project, pluginConvention)
 	}
 
-	private void setupTask(final Project project) {
+	
+	private void setupTask(final Project project, final FSMPluginConvention pluginConvention) {
 		FSM fsm = project.getTasks().create(FSM_TASK_NAME, FSM.class)
 		fsm.setDescription("Assembles a fsm archive containing the FirstSpirit module.")
 		fsm.setGroup(BasePlugin.BUILD_GROUP)
 		fsm.dependsOn(JavaPlugin.JAR_TASK_NAME)
+
+		addPublication(project, fsm)
 		
+		mapPluginConvention(fsm, pluginConvention)
+	}
+
+	private addPublication(Project project, FSM fsm) {
 		DefaultArtifactPublicationSet publicationSet = project.getExtensions().getByType(DefaultArtifactPublicationSet.class)
 		publicationSet.addCandidate(new ArchivePublishArtifact(fsm))
+	}
+	
+	private mapPluginConvention(FSM fsm, FSMPluginConvention pluginConvention) {
+		fsm.conventionMapping.map(FSMPluginConvention.MODULE_DIR_NAME_CONVENTION) { pluginConvention.moduleDirName }
 	}
 }
