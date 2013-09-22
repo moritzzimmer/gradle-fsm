@@ -13,36 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-apply plugin: 'groovy'
-apply plugin: 'maven'
-apply plugin: 'eclipse'
+package org.gradle.plugins.fsm
 
-group = 'org.gradle.api.plugins'
-version = '0.1.0'
-archivesBaseName = 'gradle-fsm-plugin'
+import org.gradle.api.tasks.bundling.Jar
 
-repositories {
-	mavenCentral()
-}
 
-dependencies {
-    compile gradleApi()
-    compile localGroovy()
+class FSM extends Jar {
+	static final String FSM_EXTENSION = 'fsm'
 	
-    testCompile (
-		'junit:junit:4.11',
-		'org.hamcrest:hamcrest-all:1.3'
-	)
-}
-
-jar {
-		
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri('../repo'))
-        }
-    }
+	FSM() {
+		extension = FSM_EXTENSION
+		destinationDir = project.file('build/fsm')
+	}
 }

@@ -5,7 +5,7 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath group: 'org.gradle', name: 'plugin', version: '1.0-SNAPSHOT'
+		classpath group: 'org.gradle.api.plugins', name: 'gradle-fsm-plugin', version: '0.1.0'
 	}
 }
 apply plugin: 'eclipse'
@@ -18,7 +18,6 @@ ext.vendor = 'example'
 repositories {
   mavenCentral()
 }
-
 
 dependencies {
   compile (
