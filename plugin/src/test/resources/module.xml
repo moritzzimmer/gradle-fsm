@@ -3,6 +3,7 @@
 	<name>$name</name>
 	<version>$version</version>
 	<description>$description</description>
+<!-- 	<vendor>$vendor</vendor> -->
 	<components>
 		<!-- 
 			add your components here 

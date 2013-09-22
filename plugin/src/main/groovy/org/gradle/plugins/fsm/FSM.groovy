@@ -15,14 +15,27 @@
  */
 package org.gradle.plugins.fsm
 
+import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.bundling.Jar
 
 
 class FSM extends Jar {
 	static final String FSM_EXTENSION = 'fsm'
-	
+
 	FSM() {
 		extension = FSM_EXTENSION
 		destinationDir = project.file('build/fsm')
+
+		metaInf {
+			// TODO: use convention here
+			from project.file('src/main/resources/')
+			include 'module.xml'
+
+			// TODO: add vendor here
+			expand(name: project.name,
+				version: project.version,
+				description: project.description,
+				artifact: project.jar.archiveName)
+		}
 	}
 }
