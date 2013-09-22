@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gradle.plugins.fsm
+package org.gradle.plugins.fsm.tasks.bundling
 
 import static org.hamcrest.Matchers.*
 import static org.junit.Assert.*
 
 import org.gradle.api.Project
+import org.gradle.plugins.fsm.FSMPlugin;
+import org.gradle.plugins.fsm.tasks.bundling.FSM;
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.After
 import org.junit.Before

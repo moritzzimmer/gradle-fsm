@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gradle.plugins.fsm
+package org.gradle.plugins.fsm.tasks.bundling
 
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.bundling.Jar

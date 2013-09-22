@@ -23,6 +23,7 @@ import org.gradle.api.Task
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.plugins.JavaPlugin
+import org.gradle.plugins.fsm.tasks.bundling.FSM;
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Before
 import org.junit.Test
