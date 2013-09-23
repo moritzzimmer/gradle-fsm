@@ -30,6 +30,7 @@ import org.gradle.api.plugins.BasePlugin;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.api.tasks.SourceSet;
+import org.gradle.api.tasks.bundling.Jar;
 import org.gradle.plugins.fsm.tasks.bundling.FSM;
 
 /**
@@ -57,6 +58,8 @@ public class FSMPlugin implements Plugin<Project> {
 		configureTask(project, pluginConvention);
 
 		configureConfigurations(project.getConfigurations());
+		
+		configureJarTask(project);
 	}
 
 	private void configureTask(final Project project,
@@ -154,5 +157,10 @@ public class FSMPlugin implements Plugin<Project> {
 				.extendsFrom(provideCompileConfiguration);
 		configurationContainer.getByName(JavaPlugin.RUNTIME_CONFIGURATION_NAME)
 				.extendsFrom(provideRuntimeConfiguration);
+	}
+	
+	private void configureJarTask(Project project) {
+		final Jar jarTask = (Jar) project.getTasks().getByName(JavaPlugin.JAR_TASK_NAME);
+		jarTask.exclude("module.xml");
 	}
 }

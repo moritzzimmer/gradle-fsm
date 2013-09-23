@@ -29,6 +29,7 @@ import org.gradle.plugins.fsm.tasks.bundling.FSM
 import org.gradle.plugins.fsm.util.TestUtil
 import org.gradle.testfixtures.ProjectBuilder
 import org.gradle.util.WrapUtil
+import org.hamcrest.core.IsNot;
 import org.junit.Before
 import org.junit.Test
 
@@ -118,5 +119,13 @@ class FSMPluginTest {
 		assertThat(TestUtil.getNames(configuration.extendsFrom), equalTo(WrapUtil.toSet(FSMPlugin.PROVIDED_COMPILE_CONFIGURATION_NAME)))
 		assertFalse(configuration.visible)
 		assertTrue(configuration.transitive)
+	}
+	
+	@Test
+	void moduleXMLExludedFromJarArtifact() {
+		fsmPlugin.apply(project)
+		
+		Task jarTask = project.tasks[JavaPlugin.JAR_TASK_NAME]
+		assertThat(jarTask.excludes, contains("module.xml"))
 	}
 }

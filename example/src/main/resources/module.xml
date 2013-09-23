@@ -20,8 +20,11 @@
 				<!-- production code  -->
 				<resource>lib/$artifact</resource>
 				
-				<!-- example of an included JAR (TODO: auto-generate) -->
+				<!-- example of an included compile time dependency (TODO: auto-generate) -->
 				<resource name="joda-time" version="2.3">lib/joda-time-2.3.jar</resource>
+				
+				<!-- example of an included runtime dependency (TODO: auto-generate) -->
+				<resource name="mysql" version="5.1.26">lib/mysql-connector-java.jar</resource>
 			</resources>
 		</library>
 	</components>
