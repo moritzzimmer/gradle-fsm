@@ -13,8 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+buildscript {
+	repositories {
+		maven { url 'http://jcenter.bintray.com' }
+	}
+
+	dependencies {
+		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+	}
+}
+
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
+apply plugin: 'bintray'
 apply plugin: 'eclipse'
 
 description = 'Gradle plugin to build FirstSpirit modules (FSMs).'
@@ -75,5 +86,19 @@ publishing {
 		maven {
 			url "file://$buildDir/../../repo"
 		}
+	}
+}
+
+bintray {
+	user = project.hasProperty('bintrayUser') ? project.getProperty('bintrayUser') : null
+    key =  project.hasProperty('bintrayKey') ? project.getProperty('bintrayKey') : null
+	
+	publications = ['mavenJava']
+	
+	pkg {
+		repo = 'gradle-plugins'
+		name = 'gradle-fsm-plugin'
+		desc = 'Gradle plugin to build FirstSpirit modules (FSMs).'
+		licenses = ['Apache-2.0']
 	}
 }
