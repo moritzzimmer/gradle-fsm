@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 buildscript {
-	repositories {
-		maven {
-			url uri('../repo')
-		}
-	}
-	dependencies {
-		classpath group: 'org.gradle.api.plugins', name: 'gradle-fsm-plugin', version: '0.1.0'
-	}
+    repositories {
+		// TODO: change to jcenter() as soon the repo is included
+        mavenRepo(url: 'http://dl.bintray.com/kachelzaehler/gradle-plugins') 
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-fsm-plugin:0.1.0'
+    }
 }
 apply plugin: 'fsm'
 apply plugin: 'eclipse'
