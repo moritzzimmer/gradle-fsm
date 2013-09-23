@@ -17,6 +17,7 @@ apply plugin: 'groovy'
 apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
 
+description = 'Gradle plugin to build FirstSpirit modules (FSMs).'
 group = 'org.gradle.api.plugins'
 version = '0.1.0'
 
