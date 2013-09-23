@@ -8,8 +8,8 @@ buildscript {
 		classpath group: 'org.gradle.api.plugins', name: 'gradle-fsm-plugin', version: '0.1.0'
 	}
 }
-apply plugin: 'eclipse'
 apply plugin: 'fsm'
+apply plugin: 'eclipse'
 
 description = 'add your description here'
 version = '0.1.0'
@@ -30,22 +30,39 @@ dependencies {
 	  'mysql:mysql-connector-java:5.1.26'
   )
   
+  /*
+   * List dependencies required to
+   * compile the production source code of this FSM here 
+   * which are provided by FirstSpirit.
+   *
+   * Those dependencies won't be added to the FSM.
+   */
   fsProvidedCompile (
 	  // example
 	  'commons-logging:commons-logging:1.1.3'
   )
   
+  /*
+   * List dependencies required by
+   * the production classes at runtime here
+   * which are provided by FirstSpirit.
+   *
+   * Those dependencies won't be added to the FSM.
+   */
   fsProvidedRuntime ()
   
   testCompile (
 	  // example
 	  'junit:junit:4.11'
   )  
+  
+  testRuntime ()
 }
 
+// configure FSM here
 fsm {
-	// configure FSM here
-	moduleDirName = 'src/main/resources'
+	// example to set a different directory containing the module.xml
+	// moduleDirName = 'src/main/module'
 }
 
 jar {

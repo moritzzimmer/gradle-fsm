@@ -22,6 +22,11 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.bundling.Jar
 
 
+/**
+ * Bundles the FSM using libraries from the internal {@link FileCollection} classpath
+ * and the configured module.xml.
+ *
+ */
 class FSM extends Jar {
 	static final String FSM_EXTENSION = 'fsm'
 
@@ -55,7 +60,6 @@ class FSM extends Jar {
 			from project.file(moduleDirName)
 			include 'module.xml'
 
-			// TODO: add vendor here
 			expand(name: project.name,
 				version: project.version,
 				description: project.description,
