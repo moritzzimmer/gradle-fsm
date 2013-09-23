@@ -88,6 +88,25 @@ public class FSMPlugin implements Plugin<Project> {
 						return JavaPlugin.JAR_TASK_NAME;
 					}
 				});
+				
+				task.classpath(new Object[] { new Callable<FileCollection>() {
+					public FileCollection call() throws Exception {
+						final FileCollection runtimeClasspath = project
+								.getConvention()
+								.getPlugin(JavaPluginConvention.class)
+								.getSourceSets()
+								.getByName(SourceSet.MAIN_SOURCE_SET_NAME)
+								.getRuntimeClasspath();
+						final FileCollection outputs = project.getTasks()
+								.findByName(JavaPlugin.JAR_TASK_NAME)
+								.getOutputs().getFiles();
+								
+						final Configuration providedRuntime = project
+								.getConfigurations().getByName(
+										PROVIDED_RUNTIME_CONFIGURATION_NAME);
+						return runtimeClasspath.minus(providedRuntime).plus(outputs);
+					}
+				} });
 			}
 		});
 	}

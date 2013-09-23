@@ -39,6 +39,13 @@ class FSM extends Jar {
 	FSM() {
 		extension = FSM_EXTENSION
 		destinationDir = project.file('build/fsm')
+		
+		into('lib') {
+			from {
+				def classpath = getClasspath()
+				classpath ? classpath.filter {File file -> file.isFile()} : []
+			}
+		}
 	}
 	
 	@Override

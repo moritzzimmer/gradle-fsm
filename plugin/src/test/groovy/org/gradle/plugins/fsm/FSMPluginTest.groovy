@@ -26,6 +26,7 @@ import org.gradle.api.artifacts.Dependency
 import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.plugins.fsm.tasks.bundling.FSM
+import org.gradle.plugins.fsm.util.TestUtil
 import org.gradle.testfixtures.ProjectBuilder
 import org.gradle.util.WrapUtil
 import org.junit.Before
