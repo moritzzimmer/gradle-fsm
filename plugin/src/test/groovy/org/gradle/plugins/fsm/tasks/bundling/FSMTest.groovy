@@ -25,6 +25,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+
+// FIXME: test module.xml 
 class FSMTest {
 
 	private final File testDir = new File("build/tmp/tests")
@@ -32,11 +34,11 @@ class FSMTest {
 
 	FSM fsm
 
-	@Before public void setUp() {
+	@Before 
+	public void setUp() {
 		project = ProjectBuilder.builder().withProjectDir(testDir).build()
 		project.apply plugin: FSMPlugin.NAME
-		project.convention.plugins.fsm.moduleDirName = "src/test/resources"
-
+		
 		fsm = project.tasks[FSMPlugin.FSM_TASK_NAME]
 		
 		fsm.baseName = 'testbasename'

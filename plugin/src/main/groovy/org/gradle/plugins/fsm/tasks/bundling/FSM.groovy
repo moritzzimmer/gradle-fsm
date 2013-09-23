@@ -16,6 +16,8 @@
 package org.gradle.plugins.fsm.tasks.bundling
 
 import org.gradle.api.file.FileCollection
+import org.gradle.api.tasks.InputFiles;
+import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.bundling.Jar
 
@@ -27,6 +29,12 @@ class FSM extends Jar {
 	 * Directory containing the module.xml, mapped from plugin convention
 	 */
 	String moduleDirName
+	
+	/**
+	 * The fsm runtime classpath. All libraries in this
+	 * classpath will be copied to 'fsm/lib' folder
+	 */
+	private FileCollection classpath
 	
 	FSM() {
 		extension = FSM_EXTENSION
@@ -47,5 +55,35 @@ class FSM extends Jar {
 				artifact: project.jar.archiveName)
 		}
 		super.copy();
+	}
+	
+	/**
+	 * Returns the classpath to include in the FSM archive. Any JAR or ZIP files in this classpath are included in the
+	 * {@code lib} directory.
+	 *
+	 * @return The classpath. Returns an empty collection when there is no classpath to include in the FSM.
+	 */
+	@InputFiles @Optional
+	FileCollection getClasspath() {
+		return classpath
+	}
+
+	/**
+	 * Sets the classpath to include in the FSM archive.
+	 *
+	 * @param classpath The classpath. Must not be null.
+	 */
+	void setClasspath(Object classpath) {
+		this.classpath = project.files(classpath)
+	}
+
+	/**
+	 * Adds files to the classpath to include in the FSM archive.
+	 *
+	 * @param classpath The files to add. These are evaluated as for {@link org.gradle.api.Project#files(Object [])}
+	 */
+	void classpath(Object... classpath) {
+		FileCollection oldClasspath = getClasspath()
+		this.classpath = project.files(oldClasspath ?: [], classpath)
 	}
 }
