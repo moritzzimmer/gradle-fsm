@@ -30,7 +30,7 @@ apply plugin: 'eclipse'
 
 description = 'Gradle plugin to build FirstSpirit modules (FSMs).'
 group = 'org.gradle.api.plugins'
-version = '0.1.0'
+version = '0.2.0'
 
 repositories {
 	mavenCentral()
@@ -57,12 +57,30 @@ jar {
 	}
 }
 
+task sourcesJar(type: Jar) {
+	classifier 'sources'
+	from sourceSets.main.allSource
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+	classifier 'groovydoc'
+	from groovydoc.destinationDir
+}
+
+artifacts {
+	archives sourcesJar
+	archives groovydocJar
+}
+
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
 			artifactId 'gradle-fsm-plugin'
+			
 			from components.java
-
+			artifact sourcesJar
+			artifact groovydocJar
+			
 			pom.withXml {
 				def root = asNode()
 				root.appendNode('name', 'Gradle FSM plugin')
