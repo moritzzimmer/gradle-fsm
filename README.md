@@ -84,7 +84,8 @@ The FSM plugin adds two dependency configurations: _fsProvidedCompile_ and _fsPr
 
 ```groovy
 dependencies {
-  // Library required to compile the production source code of this // FSM which is provided by FirstSpirit. 
+  // Library required to compile the production source code of 
+  // this FSM which is provided by FirstSpirit. 
   fsProvidedCompile ('commons-logging:commons-logging:1.1.3')
 }
 ```
