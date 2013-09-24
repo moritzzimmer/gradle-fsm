@@ -110,6 +110,8 @@ eclipse {
 
 ## Example
 
+You can either use this [example project](https://github.com/moritzzimmer/gradle-fsm-example) as a starting point or the following snippet:
+
 ```groovy
 buildscript {
     repositories {
