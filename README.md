@@ -150,4 +150,5 @@ eclipse {
 
 ## Requirements
 
+* [Java](http://www.java.com/en/download/) 7+
 * [Gradle](http://www.gradle.org/downloads) 1.7+
