@@ -11,9 +11,9 @@ To use the plugin, include the following snippet on top of your build script:
 ```groovy
 buildscript {
     repositories {
-        mavenRepo(url: 'http://dl.bintray.com/kachelzaehler/gradle-plugins') 
+        jcenter()
     }
-    dependencies { classpath 'org.gradle.api.plugins:gradle-fsm-plugin:0.1.0' }
+    dependencies { classpath 'org.gradle.api.plugins:gradle-fsm-plugin:0.2.0' }
 }
 apply plugin: 'fsm'
 ```
@@ -115,10 +115,9 @@ You can either use this [example project](https://github.com/moritzzimmer/gradle
 ```groovy
 buildscript {
     repositories {
-        mavenRepo(url: 'http://dl.bintray.com/kachelzaehler/gradle-plugins') 
+        jcenter()
     }
-
-    dependencies { classpath 'org.gradle.api.plugins:gradle-fsm-plugin:0.1.0' }
+    dependencies { classpath 'org.gradle.api.plugins:gradle-fsm-plugin:0.2.0' }
 }
 apply plugin: 'fsm'
 apply plugin: 'eclipse'
