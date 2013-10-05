@@ -24,8 +24,9 @@ buildscript {
 }
 
 apply plugin: 'groovy'
-apply plugin: 'maven-publish'
+apply plugin: 'maven' // use maven-publish as soon as the plugin supports signing
 apply plugin: 'bintray'
+apply plugin: 'signing'
 apply plugin: 'eclipse'
 
 description = 'Gradle plugin to build FirstSpirit modules (FSMs).'
@@ -68,35 +69,53 @@ task groovydocJar(type: Jar, dependsOn: groovydoc) {
 }
 
 artifacts {
+	archives jar
 	archives sourcesJar
 	archives groovydocJar
 }
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			artifactId 'gradle-fsm-plugin'
-			
-			from components.java
-			artifact sourcesJar
-			artifact groovydocJar
-			
-			pom.withXml {
-				def root = asNode()
-				root.appendNode('name', 'Gradle FSM plugin')
-				root.appendNode('description', 'Gradle plugin to build FirstSpirit modules (FSMs).')
-				root.appendNode('inceptionYear', '2013')
+signing {
+	sign configurations.archives
+}
 
-				def license = root.appendNode('licenses').appendNode('license')
-				license.appendNode('name', 'The Apache Software License, Version 2.0')
-				license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
-				license.appendNode('distribution', 'repo')
-
-				def developers = root.appendNode('developers')
-				def developer = developers.appendNode('developer')
-				developer.appendNode('id', 'moritzzimmer')
-				developer.appendNode('name', 'Moritz Zimmer')
-				developer.appendNode('email', 'moritz.zmmr@gmail.com')
+if(hasProperty('nexusUsername') && hasProperty('nexusPassword')) {
+	uploadArchives {
+		repositories {
+			mavenDeployer {
+				beforeDeployment { deployment -> signing.signPom(deployment) }
+				
+				repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+					authentication(userName: nexusUsername, password: nexusPassword)
+				}
+				
+				pom.project {
+					name 'Gradle FSM plugin'
+					artifactId = 'gradle-fsm-plugin'
+					description 'Gradle plugin to build FirstSpirit modules (FSMs).'
+					inceptionYear '2013'
+					
+					scm {
+						url 'https://github.com/moritzzimmer/gradle-fsm'
+						connection 'scm:git://github.com/moritzzimmer/gradle-fsm.git'
+						developerConnection 'scm:git@github.com:moritzzimmer/gradle-fsm.git'
+					}
+					
+					licenses {
+						license {
+							name 'The Apache Software License, Version 2.0'
+							url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+							distribution 'repo'
+						}
+					}
+					
+					developers {
+						developer {
+							id 'moritzzimmer'
+							name 'Moritz Zimmer'
+							email 'moritz.zmmr@gmail.com'
+						}
+					}
+				}
 			}
 		}
 	}
@@ -104,10 +123,10 @@ publishing {
 
 bintray {
 	user = project.hasProperty('bintrayUser') ? project.getProperty('bintrayUser') : null
-    key =  project.hasProperty('bintrayKey') ? project.getProperty('bintrayKey') : null
-	
-	publications = ['mavenJava']
-	
+	key =  project.hasProperty('bintrayKey') ? project.getProperty('bintrayKey') : null
+
+	configurations = ['archives']
+
 	pkg {
 		repo = 'gradle-plugins'
 		name = 'gradle-fsm-plugin'
