@@ -26,12 +26,11 @@ buildscript {
 apply plugin: 'groovy'
 apply plugin: 'maven' // use maven-publish as soon as the plugin supports signing
 apply plugin: 'bintray'
-apply plugin: 'signing'
 apply plugin: 'eclipse'
 
 description = 'Gradle plugin to build FirstSpirit modules (FSMs).'
 group = 'org.gradle.api.plugins'
-version = '0.2.0'
+version = '0.2.1'
 
 repositories {
 	mavenCentral()
@@ -64,7 +63,7 @@ task sourcesJar(type: Jar) {
 }
 
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
-	classifier 'groovydoc'
+	classifier 'javadoc' // using javadoc here to meet maven central sync requirements
 	from groovydoc.destinationDir
 }
 
@@ -74,11 +73,14 @@ artifacts {
 	archives groovydocJar
 }
 
-signing {
-	sign configurations.archives
-}
-
 if(hasProperty('nexusUsername') && hasProperty('nexusPassword')) {
+	apply plugin: 'signing'
+	
+	signing {
+		required { gradle.taskGraph.hasTask(uploadArchives) }
+		sign configurations.archives
+	}
+	
 	uploadArchives {
 		repositories {
 			mavenDeployer {
@@ -92,12 +94,13 @@ if(hasProperty('nexusUsername') && hasProperty('nexusPassword')) {
 					name 'Gradle FSM plugin'
 					artifactId = 'gradle-fsm-plugin'
 					description 'Gradle plugin to build FirstSpirit modules (FSMs).'
+					url 'https://github.com/moritzzimmer/gradle-fsm'
 					inceptionYear '2013'
 					
 					scm {
-						url 'https://github.com/moritzzimmer/gradle-fsm'
-						connection 'scm:git://github.com/moritzzimmer/gradle-fsm.git'
+						connection 'scm:git@github.com:moritzzimmer/gradle-fsm.git'
 						developerConnection 'scm:git@github.com:moritzzimmer/gradle-fsm.git'
+						url 'git@github.com:moritzzimmer/gradle-fsm'
 					}
 					
 					licenses {
