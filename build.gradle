@@ -63,27 +63,19 @@ jar {
 	}
 }
 
-task sourcesJar(type: Jar) {
-	classifier 'sources'
-	from sourceSets.main.allSource
-}
-
-task groovydocJar(type: Jar, dependsOn: groovydoc) {
-	classifier 'javadoc' // using javadoc here to meet maven central sync requirements
-	from groovydoc.destinationDir
-}
-
-artifacts {
-	archives jar
-	archives sourcesJar
-	archives groovydocJar
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }
 
 bintray {
 	user = project.hasProperty('bintrayUser') ? project.getProperty('bintrayUser') : null
 	key =  project.hasProperty('bintrayKey') ? project.getProperty('bintrayKey') : null
 
-	configurations = ['archives']
+    publications = ['mavenJava']
 
 	pkg {
 		repo = 'gradle-plugins'
@@ -91,4 +83,9 @@ bintray {
 		desc = 'Gradle plugin to build FirstSpirit modules (FSMs).'
 		licenses = ['Apache-2.0']
 	}
+}
+
+task install(dependsOn: 'publishMavenJavaPublicationToMavenLocal'
+        , group:'publishing', description: 'Installs the maven Java artifact to the local Maven repository') << {
+    logger.info "Installed $project.name"
 }
