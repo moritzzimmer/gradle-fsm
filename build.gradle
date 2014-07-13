@@ -27,6 +27,7 @@ apply plugin: 'groovy'
 apply plugin: 'maven' // use maven-publish as soon as the plugin supports signing
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 
 description = 'Gradle plugin to build FirstSpirit modules (FSMs).'
 group = 'org.gradle.api.plugins'
