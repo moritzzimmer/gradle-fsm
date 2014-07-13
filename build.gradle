@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 buildscript {
-	repositories {
-		maven { url 'http://jcenter.bintray.com' }
-	}
+    repositories {
+        jcenter()
+    }
 
 	dependencies {
-		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
 	}
 }
 
 apply plugin: 'groovy'
 apply plugin: 'maven' // use maven-publish as soon as the plugin supports signing
-apply plugin: 'bintray'
+apply plugin: 'com.jfrog.bintray'
 apply plugin: 'eclipse'
 
 description = 'Gradle plugin to build FirstSpirit modules (FSMs).'
