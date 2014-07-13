@@ -93,7 +93,7 @@ class FSMPluginTest {
 	void pluginConventionAdded() {
 		project.apply plugin: FSMPlugin.NAME
 
-		assertThat(project.convention.plugins.fsm, instanceOf(FSMPluginConvention))		
+		assertThat(project.convention.plugins.get("com.github.moritzzimmer.fsm"), instanceOf(FSMPluginConvention))
 	}
 	
 	@Test 

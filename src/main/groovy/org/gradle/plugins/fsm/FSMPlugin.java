@@ -40,7 +40,7 @@ import org.gradle.plugins.fsm.tasks.bundling.FSM;
  */
 public class FSMPlugin implements Plugin<Project> {
 
-	static final String NAME = "fsm";
+	static final String NAME = "com.github.moritzzimmer.fsm";
 	static final String FSM_TASK_NAME = NAME;
 	static final String PLUGIN_CONVENTION_NAME = NAME;
 
