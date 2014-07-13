@@ -24,7 +24,6 @@ buildscript {
 }
 
 apply plugin: 'groovy'
-apply plugin: 'maven' // use maven-publish as soon as the plugin supports signing
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -72,57 +71,6 @@ artifacts {
 	archives jar
 	archives sourcesJar
 	archives groovydocJar
-}
-
-if(hasProperty('nexusUsername') && hasProperty('nexusPassword')) {
-	apply plugin: 'signing'
-	
-	signing {
-		required { gradle.taskGraph.hasTask(uploadArchives) }
-		sign configurations.archives
-	}
-	
-	uploadArchives {
-		repositories {
-			mavenDeployer {
-				beforeDeployment { deployment -> signing.signPom(deployment) }
-				
-				repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-					authentication(userName: nexusUsername, password: nexusPassword)
-				}
-				
-				pom.project {
-					name 'Gradle FSM plugin'
-					artifactId = 'gradle-fsm-plugin'
-					description 'Gradle plugin to build FirstSpirit modules (FSMs).'
-					url 'https://github.com/moritzzimmer/gradle-fsm'
-					inceptionYear '2013'
-					
-					scm {
-						connection 'scm:git@github.com:moritzzimmer/gradle-fsm.git'
-						developerConnection 'scm:git@github.com:moritzzimmer/gradle-fsm.git'
-						url 'git@github.com:moritzzimmer/gradle-fsm'
-					}
-					
-					licenses {
-						license {
-							name 'The Apache Software License, Version 2.0'
-							url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-							distribution 'repo'
-						}
-					}
-					
-					developers {
-						developer {
-							id 'moritzzimmer'
-							name 'Moritz Zimmer'
-							email 'moritz.zmmr@gmail.com'
-						}
-					}
-				}
-			}
-		}
-	}
 }
 
 bintray {
