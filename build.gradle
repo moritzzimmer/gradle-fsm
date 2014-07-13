@@ -25,12 +25,13 @@ buildscript {
 
 apply plugin: 'groovy'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
 description = 'Gradle plugin to build FirstSpirit modules (FSMs).'
-group = 'org.gradle.api.plugins'
-version = '0.2.1'
+group = 'com.github.moritzzimmer.fsm'
+version = '0.3.0'
 
 repositories {
 	mavenCentral()
