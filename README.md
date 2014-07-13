@@ -13,9 +13,9 @@ buildscript {
     repositories {
         jcenter()
     }
-    dependencies { classpath 'org.gradle.api.plugins:gradle-fsm-plugin:0.2.0' }
+    dependencies { classpath 'com.github.moritzzimmer:gradle-fsm-plugin:0.3.0' }
 }
-apply plugin: 'fsm'
+apply plugin: 'com.github.moritzzimmer.fsm'
 ```
 
 ## Project layout
@@ -92,6 +92,18 @@ dependencies {
 
 ## IDE support
 
+### IntelliJ
+
+The two custom configurations can be added to the [IntelliJ](http://www.jetbrains.com/idea/webhelp/gradle-2.html) classpath:
+
+```groovy
+apply plugin: 'idea'
+
+// add libraries from custom FirstSpirit configurations to the IntelliJ classpath (Gradle 2.0 syntax)
+idea.module.scopes.COMPILE.plus += [configurations.fsProvidedCompile]
+idea.module.scopes.COMPILE.plus += [configurations.fsProvidedRuntime]
+```
+
 ### Eclipse
 
 The two custom configurations can be added to the [Eclipse](http://docs.spring.io/sts/docs/2.9.0.old/reference/html/gradle/gradle-sts-tutorial.html) classpath:
@@ -100,11 +112,11 @@ The two custom configurations can be added to the [Eclipse](http://docs.spring.i
 apply plugin: 'eclipse'
 
 eclipse {
-  classpath {
-    // add libraries from custom FirstSpirit configurations to the eclipse classpath
-    plusConfigurations += configurations.fsProvidedCompile
-    plusConfigurations += configurations.fsProvidedRuntime
-  }
+    classpath {
+        // add libraries from custom FirstSpirit configurations to the eclipse classpath (Gradle 2.0 syntax)
+        plusConfigurations += [configurations.fsProvidedCompile]
+        plusConfigurations += [configurations.fsProvidedRuntime]
+    }
 }
 ```
 
@@ -117,10 +129,12 @@ buildscript {
     repositories {
         jcenter()
     }
-    dependencies { classpath 'org.gradle.api.plugins:gradle-fsm-plugin:0.2.0' }
+
+    dependencies { classpath 'com.github.moritzzimmer:gradle-fsm-plugin:0.3.0' }
 }
-apply plugin: 'fsm'
+apply plugin: 'com.github.moritzzimmer.fsm'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 
 description = 'Example FSM Gradle build'
 version = '0.1.0'
@@ -129,27 +143,37 @@ repositories { mavenCentral() }
 
 dependencies {
   compile ('joda-time:joda-time:2.3')
+
+  runtime ()
   
   fsProvidedCompile ('commons-logging:commons-logging:1.1.3')
-  
+
   fsProvidedRuntime ()
+  
+  testCompile (
+  	'junit:junit:4.11'
+  )
 }
 
 fsm {
     // example to set a different directory containing the module.xml
-    moduleDirName = 'src/main/module'
+	// moduleDirName = 'src/main/module'
 }
 
 eclipse {
     classpath {
-        // add libraries from custom FirstSpirit configurations to the eclipse classpath
-        plusConfigurations += configurations.fsProvidedCompile
-        plusConfigurations += configurations.fsProvidedRuntime
+        // add libraries from custom FirstSpirit configurations to the eclipse classpath (Gradle 2.0 syntax)
+        plusConfigurations += [configurations.fsProvidedCompile]
+        plusConfigurations += [configurations.fsProvidedRuntime]
     }
 }
+
+// add libraries from custom FirstSpirit configurations to the IntelliJ classpath (Gradle 2.0 syntax)
+idea.module.scopes.COMPILE.plus += [configurations.fsProvidedCompile]
+idea.module.scopes.COMPILE.plus += [configurations.fsProvidedRuntime]
 ```
 
 ## Requirements
 
-* [Java](http://www.java.com/en/download/) 7+
+* [Java](http://www.java.com/en/download/) 1.6+
 * [Gradle](http://www.gradle.org/downloads) 1.7+
