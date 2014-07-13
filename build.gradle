@@ -66,7 +66,30 @@ jar {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            artifactId 'gradle-fsm-plugin'
             from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('name', 'Gradle FSM plugin')
+                root.appendNode('description', 'Gradle plugin to build FirstSpirit modules (FSMs).')
+                root.appendNode('inceptionYear', '2013')
+
+                def license = root.appendNode('licenses').appendNode('license')
+                license.appendNode('name', 'The Apache Software License, Version 2.0')
+                license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
+                license.appendNode('distribution', 'repo')
+
+                def developers = root.appendNode('developers')
+                def developer = developers.appendNode('developer')
+                developer.appendNode('id', 'moritzzimmer')
+                developer.appendNode('name', 'Moritz Zimmer')
+                developer.appendNode('email', 'moritz.zmmr@gmail.com')
+            }
         }
     }
 }
@@ -88,4 +111,8 @@ bintray {
 task install(dependsOn: 'publishMavenJavaPublicationToMavenLocal'
         , group:'publishing', description: 'Installs the maven Java artifact to the local Maven repository') << {
     logger.info "Installed $project.name"
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
 }
