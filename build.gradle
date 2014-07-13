@@ -46,6 +46,11 @@ dependencies {
 	)
 }
 
+plugins.withType(JavaPlugin) {
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
+}
+
 jar {
 	manifest {
 		attributes 'Implementation-Title': 'Gradle FSM plugin',
