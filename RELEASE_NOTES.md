@@ -1,3 +1,8 @@
+### Version 0.3.0 (July 13, 2014)
+
+* Updated plugin to Gradle 2.0
+* Updated plugin to Gradle plugin portal requirements
+
 ### Version 0.2.1 (October 12, 2013)
 
 * Plugin hosted on Maven Central
