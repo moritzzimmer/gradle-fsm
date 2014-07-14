@@ -2,7 +2,9 @@
 
 # Gradle FSM plugin
 
-[ ![Download](https://api.bintray.com/packages/kachelzaehler/gradle-plugins/gradle-fsm-plugin/images/download.png) ](https://bintray.com/kachelzaehler/gradle-plugins/gradle-fsm-plugin/_latestVersion)
+[![Build Status](https://travis-ci.org/moritzzimmer/gradle-fsm.svg?branch=master)](https://travis-ci.org/moritzzimmer/gradle-fsm) 
+
+[![Download](https://api.bintray.com/packages/kachelzaehler/gradle-plugins/gradle-fsm-plugin/images/download.png) ](https://bintray.com/kachelzaehler/gradle-plugins/gradle-fsm-plugin/_latestVersion)
 
 [Gradle](http://www.gradle.org/) plugin to build [FirstSpirit](http://www.e-spirit.com/en/product/advantage/advantages.html) modules (FSMs).
 
