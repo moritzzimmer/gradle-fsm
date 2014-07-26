@@ -134,7 +134,7 @@ buildscript {
         jcenter()
     }
 
-    dependencies { classpath 'com.github.moritzzimmer:gradle-fsm-plugin:0.3.0' }
+    dependencies { classpath 'com.github.moritzzimmer:fsm-gradle-plugin:0.3.1' }
 }
 apply plugin: 'com.github.moritzzimmer.fsm'
 apply plugin: 'eclipse'
