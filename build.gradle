@@ -31,8 +31,9 @@ apply plugin: 'idea'
 
 description = 'Gradle plugin to build FirstSpirit modules (FSMs).'
 group = 'com.github.moritzzimmer'
-version = '0.3.0'
-ext.pluginName = 'gradle-fsm-plugin'
+version = '0.3.1'
+ext.pluginId = 'com.github.moritzzimmer.fsm'
+ext.artifactName = 'fsm-gradle-plugin'
 
 repositories {
 	mavenCentral()
@@ -67,7 +68,7 @@ jar {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId pluginName
+            artifactId artifactName
             from components.java
 
             artifact sourceJar {
@@ -76,7 +77,7 @@ publishing {
 
             pom.withXml {
                 def root = asNode()
-                root.appendNode('name', 'Gradle FSM plugin')
+                root.appendNode('name', 'FSM Gradle plugin')
                 root.appendNode('description', 'Gradle plugin to build FirstSpirit modules (FSMs).')
                 root.appendNode('inceptionYear', '2013')
 
@@ -103,11 +104,12 @@ bintray {
 
 	pkg {
 		repo = 'gradle-plugins'
-		name = pluginName
+		name = pluginId
 		desc = 'Gradle plugin to build FirstSpirit modules (FSMs).'
+        websiteUrl = 'https://github.com/moritzzimmer/gradle-fsm'
 		licenses = ['Apache-2.0']
         version {
-            attributes = ['gradle-plugin': 'com.github.moritzzimmer.fsm:com.github.moritzzimmer:gradle-fsm-plugin']
+            attributes = ['gradle-plugin': "${pluginId}:${group}:${artifactName}"]
         }
 	}
 }

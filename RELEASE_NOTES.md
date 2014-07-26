@@ -1,3 +1,7 @@
+### Version 0.3.1 (July 26, 2014)
+
+* Fixed naming issues for task and plugin extension
+
 ### Version 0.3.0 (July 13, 2014)
 
 * Updated plugin to Gradle 2.0
